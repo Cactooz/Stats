@@ -7,6 +7,7 @@ from typing import Dict, List, Optional, Set, Tuple, Any, cast
 import aiohttp
 import requests
 
+import datetime
 
 ###############################################################################
 # Main Classes
@@ -213,6 +214,22 @@ query {
 """
 
     @staticmethod
+    def this_year_contribs() -> str:
+        """
+        :return: GraphQL query to get the contributons by the user for the current year
+        """
+        return f"""
+contributionsCollection(
+        from: "{datetime.datetime.now().year}-01-01T00:00:00Z",
+        to: "{datetime.datetime.now().isoformat()}"
+    ) {{
+      contributionCalendar {{
+        totalContributions
+      }}
+    }}
+"""
+
+    @staticmethod
     def contribs_by_year(year: str) -> str:
         """
         :param year: year to query for
@@ -316,7 +333,8 @@ Languages:
             )
             raw_results = raw_results if raw_results is not None else {}
 
-            self._name = raw_results.get("data", {}).get("viewer", {}).get("name", None)
+            self._name = raw_results.get("data", {}).get(
+                "viewer", {}).get("name", None)
             if self._name is None:
                 self._name = (
                     raw_results.get("data", {})
@@ -330,7 +348,8 @@ Languages:
                 .get("repositoriesContributedTo", {})
             )
             owned_repos = (
-                raw_results.get("data", {}).get("viewer", {}).get("repositories", {})
+                raw_results.get("data", {}).get(
+                    "viewer", {}).get("repositories", {})
             )
 
             repos = owned_repos.get("nodes", [])
@@ -473,6 +492,24 @@ Languages:
                 "totalContributions", 0
             )
         return cast(int, self._total_contributions)
+
+    @property
+    async def yearly_contributions(self) -> int:
+        """
+        :return: count of user's yearly contributions as defined by GitHub
+        """
+        if self._total_contributions is not None:
+            return self._total_contributions
+
+        year_contributions = (
+            (await self.queries.query(Queries.this_year_contribs()))
+            .get("data", {})
+            .get("viewer", {})
+            .get("contributionCalendar", {})
+            .get("totalContributions")
+        )
+
+        return cast(int, year_contributions)
 
     @property
     async def lines_changed(self) -> Tuple[int, int]:
