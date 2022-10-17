@@ -59,6 +59,8 @@ async def generate_languages(s: Stats) -> None:
 
     progress = ""
     lang_list = ""
+    other = 0
+    amount = 10
     sorted_languages = sorted(
         (await s.languages).items(), reverse=True, key=lambda t: t[1].get("size")
     )
@@ -66,22 +68,33 @@ async def generate_languages(s: Stats) -> None:
     for i, (lang, data) in enumerate(sorted_languages):
         color = data.get("color")
         color = color if color is not None else "#000000"
-        if i < 8:
+        if i < (amount - 1):
             progress += (
                 f'<span style="background-color: {color};'
                 f'width: {data.get("prop", 0):0.3f}%;" '
                 f'class="progress-item"></span>'
             )
             lang_list += f"""
-<li style="animation-delay: {i * delay_between}ms;">
-<svg xmlns="http://www.w3.org/2000/svg" class="octicon" style="fill:{color};"
-viewBox="0 0 16 16" version="1.1" width="16" height="16"><path
-fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path></svg>
-<span class="lang">{lang}</span>
-<span class="percent">{data.get("prop", 0):0.2f}%</span>
-</li>
+            <li style="animation-delay: {i * delay_between}ms;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="octicon" style="fill:{color};"
+            viewBox="0 0 16 16" version="1.1" width="16" height="16"><path
+            fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path></svg>
+            <span class="lang">{lang}</span>
+            <span class="percent">{data.get("prop", 0):0.2f}%</span>
+            </li>
+            """
+        else:
+            other += data.get("prop", 0)
 
-"""
+    lang_list += f"""
+    <li style="animation-delay: {(amount - 1) * delay_between}ms;">
+    <svg xmlns="http://www.w3.org/2000/svg" class="octicon"
+    viewBox="0 0 16 16" version="1.1" width="16" height="16"><path
+    fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8z"></path></svg>
+    <span class="lang">Other</span>
+    <span class="percent">{other:0.2f}%</span>
+    </li>
+    """
 
     output = re.sub(r"{{ progress }}", progress, output)
     output = re.sub(r"{{ lang_list }}", lang_list, output)

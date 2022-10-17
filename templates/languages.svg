@@ -43,14 +43,17 @@ ul {
   padding-left: 0;
   margin-top: 0;
   margin-bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 li {
   display: inline-flex;
   font-size: 12px;
-  margin-right: 2ch;
+  padding 1px;
   align-items: center;
   flex-wrap: nowrap;
+  flex: 1 0 45%;
   transform: translateX(-500%);
   animation: slideIn 1s ease-out forwards;
 }
@@ -73,11 +76,6 @@ div.ellipsis {
   vertical-align: top;
 }
 
-#gh-dark-mode-only:target .octicon {
-  color: #8b949e;
-  fill: #8b949e;
-}
-
 .progress {
   display: flex;
   height: 8px;
@@ -90,7 +88,7 @@ div.ellipsis {
 }
 
 #gh-dark-mode-only:target .progress {
-  background-color: rgba(110, 118, 129, 0.4);
+  background-color: #FFFFFF;
 }
 
 .progress-item {
