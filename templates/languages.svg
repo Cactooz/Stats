@@ -11,14 +11,14 @@ svg {
   height: calc(100% - 10px);
   fill: white;
   stroke: rgb(225, 228, 232);
-  stroke-width: 1px;
+  stroke-width: 0.5px;
   rx: 6px;
   ry: 6px;
 }
 
 #gh-dark-mode-only:target #background {
   fill: #0d1117;
-  stroke-width: 0.5px;
+  stroke: #adbac7;
 }
 
 foreignObject {
@@ -27,18 +27,15 @@ foreignObject {
 }
 
 h2 {
-  margin-top: 0;
-  margin-bottom: 0.75em;
-  line-height: 24px;
+  padding-bottom: 0.5em;
+  margin: 0;
   font-size: 16px;
   font-weight: 600;
-  color: rgb(36, 41, 46);
   fill: rgb(36, 41, 46);
 }
 
 #gh-dark-mode-only:target h2 {
-  color: #c9d1d9;
-  fill: #c9d1d9;
+  color: #adbac7;
 }
 
 ul {
@@ -55,7 +52,7 @@ li {
   align-items: center;
   flex-wrap: nowrap;
   transform: translateX(-500%);
-  animation: slideIn 2s ease-in-out forwards;
+  animation: slideIn 1s ease-out forwards;
 }
 
 @keyframes slideIn {
@@ -88,6 +85,7 @@ div.ellipsis {
   background-color: rgb(225, 228, 232);
   border-radius: 6px;
   outline: 1px solid transparent;
+  margin-top: 3px;
   margin-bottom: 1em;
 }
 
@@ -125,10 +123,10 @@ div.ellipsis {
 <g>
 <rect x="5" y="5" id="background" />
 <g>
-<foreignObject x="21" y="17" width="318" height="176">
+<foreignObject x="21" y="21" width="318" height="168">
 <div xmlns="http://www.w3.org/1999/xhtml" class="ellipsis">
 
-<h2>Languages Used (By File Size)</h2>
+<h2>Most Used Languages</h2>
 
 <div>
 <span class="progress">
